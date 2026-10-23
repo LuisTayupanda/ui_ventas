@@ -77,7 +77,8 @@ class _GastoFormScreenState extends State<GastoFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_esEdicion ? 'Editar gasto' : 'Nuevo gasto')),
+      appBar:
+          AppBar(title: Text(_esEdicion ? 'Editar gasto' : 'Nuevo producto')),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Form(

@@ -5,10 +5,9 @@ import '../services/api_client.dart';
 import '../services/secure_token_storage.dart';
 import '../screens/gastos_screen.dart';
 import 'gastos_controller.dart';
+import '../screens/ventas_screen.dart';
+import '../screens/login_screen.dart';
 
-/// Estado de la sesión de toda la app — Sesión 8 (mismo patrón de GetX de las
-/// Sesiones 4-7: el controller guarda el estado y `Obx` reconstruye la
-/// pantalla). `usuario` es null cuando no hay sesión.
 class AuthController extends GetxController {
   AuthController({ApiClient? api, SecureTokenStorage? almacen})
       : _api = api ?? Get.find<ApiClient>(),
@@ -38,17 +37,14 @@ class AuthController extends GetxController {
     restaurarSesion();
   }
 
-  /// POST /usuarios/ con JSON y, si sale bien (201), inicia sesión.
-  /// Correo repetido → 400 con el motivo en `detail`.
   Future<void> registrar(String email, String password) async {
-    // Por qué: crear la cuenta y entrar son dos peticiones seguidas; `await`
-    // permite escribirlas en orden. Un error del servidor se muestra tal cual.
     cargando.value = true;
     mensajeError.value = '';
     try {
       await _api
           .post('/usuarios/', data: {'email': email, 'password': password});
       await iniciarSesion(email, password);
+      //Get.offAll(() => const LoginScreen());
     } on ApiException catch (e) {
       mensajeError.value = e.mensaje;
     } finally {
@@ -71,7 +67,9 @@ class AuthController extends GetxController {
       final token = (r.data as Map)['access_token'] as String;
       _api.token = token;
       await _almacen.guardar(token);
-      Get.offAll(() => const GastosScreen());
+      await cargarUsuario();
+      Get.offAll(() => const VentasScreen());
+      //Get.offAll(() => const GastosScreen());
       avisoSesion.value = '';
     } on ApiException catch (e) {
       mensajeError.value = e.mensaje;
