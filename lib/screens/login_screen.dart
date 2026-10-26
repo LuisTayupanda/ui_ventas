@@ -34,10 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _enviar() async {
-    //if (!_formKey.currentState!.validate()) return;
     await _auth.iniciarSesion(_email.text.trim(), _password.text);
-    // Con sesión abierta, se vuelve a la pantalla de Gastos.
-    // if (_auth.estaAutenticado) Get.until((ruta) => ruta.isFirst);
     Get.until((ruta) => ruta.isFirst);
   }
 

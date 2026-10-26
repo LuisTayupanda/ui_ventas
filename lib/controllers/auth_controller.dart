@@ -78,12 +78,7 @@ class AuthController extends GetxController {
     }
   }
 
-  /// Al abrir la app: si hay un token guardado, comprueba con el servidor que
-  /// siga siendo válido (GET /usuarios/me) y deja la sesión abierta.
   Future<void> restaurarSesion() async {
-    // Por qué: sin esto la sesión se perdería en cada arranque. Un 401 quiere
-    // decir que el token caducó: se borra y se pide iniciar sesión. Otro error
-    // (sin conexión) no borra nada: el token puede seguir siendo válido.
     restaurando.value = true;
     try {
       final guardado = await _almacen.leer();
@@ -102,20 +97,15 @@ class AuthController extends GetxController {
     }
   }
 
-  /// Lo llama el interceptor cuando el servidor responde 401 (token vencido).
   Future<void> sesionCaducada() async {
     await cerrarSesion();
     avisoSesion.value = 'Tu sesión caducó, inicia sesión de nuevo.';
-    // Si había una pantalla encima (por ejemplo, el formulario), se vuelve a la base.
+
     if (Get.key.currentState != null) Get.until((ruta) => ruta.isFirst);
   }
 
   /// Borra el token (seguro y en memoria) y deja la sesión cerrada.
   Future<void> cerrarSesion() async {
-    // Por qué: el token solo es una parte de lo que identifica a la persona.
-    // Su copia de gastos (la caja de Hive de la Sesión 7) y la lista en
-    // pantalla también deben borrarse, o la siguiente persona que use este
-    // teléfono las vería.
     if (Get.isRegistered<GastosController>())
       await Get.find<GastosController>().limpiar();
     await _almacen.borrar();
@@ -123,12 +113,7 @@ class AuthController extends GetxController {
     usuario.value = null;
   }
 
-  /// PUT /usuarios/me/password — responde 204 (sin cuerpo). Si sale bien, cierra
-  /// la sesión para entrar con la contraseña nueva.
   Future<void> cambiarPassword(String actual, String nueva) async {
-    // Por qué: un 204 no trae cuerpo, así que no hay nada que leer de la
-    // respuesta. Con la contraseña actual equivocada el servidor responde con
-    // un error y su mensaje se muestra tal cual.
     cargando.value = true;
     mensajeError.value = '';
     try {
@@ -142,7 +127,6 @@ class AuthController extends GetxController {
     }
   }
 
-  /// GET /usuarios/me → deja el usuario de la sesión en `usuario`.
   Future<void> cargarUsuario() async {
     print('*****CARGANDO USUARIO*****');
     final r = await _api.get('/usuarios/me');
@@ -150,6 +134,5 @@ class AuthController extends GetxController {
     print('*****USUARIO: ${usuario.value}*****');
   }
 
-  /// Solo práctica (Paso 7): la siguiente petición responderá 401.
   void invalidarTokenParaPruebas() => _api.token = 'token-invalido';
 }

@@ -5,8 +5,6 @@ import '../controllers/auth_controller.dart';
 import '../theme/app_theme.dart';
 import '../utils/validadores.dart';
 
-/// Registro de una cuenta nueva — Sesión 8. Si el servidor acepta el
-/// registro, `AuthController` inicia la sesión solo.
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -52,7 +50,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'Correo', border: OutlineInputBorder()),
+                decoration: const InputDecoration(
+                    labelText: 'Correo', border: OutlineInputBorder()),
                 validator: Validadores.correo,
               ),
               const SizedBox(height: AppSpacing.md),
@@ -60,7 +59,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _password,
                 obscureText: true,
                 decoration: const InputDecoration(
-                    labelText: 'Contraseña (8 a 72 caracteres)', border: OutlineInputBorder()),
+                    labelText: 'Contraseña (8 a 72 caracteres)',
+                    border: OutlineInputBorder()),
                 validator: Validadores.password,
               ),
               const SizedBox(height: AppSpacing.md),
@@ -69,12 +69,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   : Padding(
                       padding: const EdgeInsets.only(bottom: AppSpacing.md),
                       child: Text(_auth.mensajeError.value,
-                          style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.error)),
                     )),
               Obx(() => FilledButton(
                     onPressed: _auth.cargando.value ? null : _enviar,
                     child: _auth.cargando.value
-                        ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2))
                         : const Text('Crear cuenta'),
                   )),
             ],
