@@ -1,3 +1,4 @@
+import 'package:exploraec/controllers/productos_controller.dart';
 import 'package:get/get.dart';
 
 import '../models/usuario.dart';
@@ -106,11 +107,10 @@ class AuthController extends GetxController {
 
   /// Borra el token (seguro y en memoria) y deja la sesión cerrada.
   Future<void> cerrarSesion() async {
-    if (Get.isRegistered<GastosController>())
-      await Get.find<GastosController>().limpiar();
     await _almacen.borrar();
     _api.token = null;
     usuario.value = null;
+    Get.offAll(() => const LoginScreen());
   }
 
   Future<void> cambiarPassword(String actual, String nueva) async {

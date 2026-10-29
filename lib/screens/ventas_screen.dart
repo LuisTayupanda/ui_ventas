@@ -1,3 +1,5 @@
+import 'package:exploraec/screens/inicio_screen.dart';
+import 'package:exploraec/screens/map_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,13 @@ import '../widgets/loading_view.dart';
 import '../widgets/sin_sesion_view.dart';
 import 'cambiar_password_screen.dart';
 import 'gasto_form_screen.dart';
+import '../theme/app_theme.dart';
+import '../i18n/app_translations.dart';
+import '../services/settings_service.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../bindings/places_binding.dart';
+import '../screens/assistant_screen.dart';
+import '../screens/home_screen.dart';
 
 class VentasScreen extends GetView<GastosController> {
   const VentasScreen({super.key});
@@ -24,8 +33,33 @@ class VentasScreen extends GetView<GastosController> {
     print('TOKEN  ventass: ${auth}');
     return Obx(() {
       if (!auth.estaAutenticado) return const SinSesionView();
-      return _buildGastos(context, auth);
+      //return const InicioScreen();
+      //return _buildGastos(context, auth);
+      //return build_Nacigation(context, auth);
+      return const RootShell();
     });
+  }
+
+  Widget build_Nacigation(BuildContext context, AuthController auth) {
+    print(
+        '=================================LLEGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    return GetMaterialApp(
+      title: 'FashionStore',
+      theme: AppTheme.theme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      translations: AppTranslations(),
+      locale: SettingsService.idioma,
+      fallbackLocale: const Locale('es', 'EC'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('es', 'EC'), Locale('en', 'US')],
+      initialBinding: PlacesBinding(),
+      home: const RootShell(),
+    );
   }
 
   Widget _buildGastos(BuildContext context, AuthController auth) {
@@ -176,5 +210,47 @@ class VentasScreen extends GetView<GastosController> {
     } on ApiException catch (e) {
       Get.snackbar('No se pudo eliminar', e.mensaje);
     }
+  }
+}
+
+class RootShell extends StatefulWidget {
+  const RootShell({super.key});
+
+  @override
+  State<RootShell> createState() => _RootShellState();
+}
+
+class _RootShellState extends State<RootShell> {
+  int _indiceActual = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: switch (_indiceActual) {
+        0 => const InicioScreen(),
+        // 1 => const HomeScreen(),
+        1 => const MapScreen(),
+        // 3 => const FavoritesScreen(),
+        // 4 => const GastosScreen(),
+        _ => const AssistantScreen(),
+      },
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _indiceActual,
+        onTap: (i) => setState(() => _indiceActual = i),
+        items: [
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.home), label: 'inicio'.tr),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.map), label: 'mapa'.tr),
+          // BottomNavigationBarItem(
+          //     icon: const Icon(Icons.favorite), label: 'favoritos'.tr),
+          // BottomNavigationBarItem(
+          //     icon: const Icon(Icons.receipt_long), label: 'gastos'.tr),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.auto_awesome), label: 'asistente'.tr),
+        ],
+      ),
+    );
   }
 }

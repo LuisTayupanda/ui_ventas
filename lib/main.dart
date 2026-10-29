@@ -1,3 +1,4 @@
+import 'package:exploraec/controllers/productos_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -7,10 +8,10 @@ import 'bindings/places_binding.dart';
 import 'controllers/auth_controller.dart';
 import 'i18n/app_translations.dart';
 import 'screens/assistant_screen.dart';
-import 'screens/favorites_screen.dart';
-import 'screens/gastos_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/map_screen.dart';
+//import 'screens/favorites_screen.dart';
+//import 'screens/gastos_screen.dart';
+//import 'screens/home_screen.dart';
+//import 'screens/map_screen.dart';
 import 'services/ai_assistant_service.dart';
 import 'services/api_client.dart';
 import 'services/settings_service.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
   Get.put(ApiClient(), permanent: true);
   Get.put(AuthController(), permanent: true);
   Get.put(AiAssistantService(), permanent: true);
+  Get.put(ProductosController(), permanent: true);
   runApp(const ExploraEcApp());
 }
 
