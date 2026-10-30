@@ -230,7 +230,7 @@ class _RootShellState extends State<RootShell> {
         0 => const InicioScreen(),
         // 1 => const HomeScreen(),
         1 => const MapScreen(),
-        // 2 => const FavoritosScreen(),
+        2 => const FavoritosScreen(),
         // 4 => const GastosScreen(),
         _ => const AssistantScreen(),
       },
@@ -243,8 +243,8 @@ class _RootShellState extends State<RootShell> {
               icon: const Icon(Icons.home), label: 'inicio'.tr),
           BottomNavigationBarItem(
               icon: const Icon(Icons.map), label: 'mapa'.tr),
-          // BottomNavigationBarItem(
-          //     icon: const Icon(Icons.favorite), label: 'favoritos'.tr),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.favorite), label: 'favoritos'.tr),
           // BottomNavigationBarItem(
           //     icon: const Icon(Icons.receipt_long), label: 'gastos'.tr),
           BottomNavigationBarItem(

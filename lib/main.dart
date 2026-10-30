@@ -53,7 +53,7 @@ class ExploraEcApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('es', 'EC'), Locale('en', 'US')],
-      initialBinding: PlacesBinding(),
+      // initialBinding: PlacesBinding(),
       home: const RootShell(),
     );
   }
