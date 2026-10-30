@@ -18,6 +18,8 @@ class ProductosController extends GetxController {
 
   int get total => productos.length;
 
+  var productosFavoritos = <Producto>[].obs;
+
   void _observarErrores() {
     ever(estado, (EstadoCarga e) {
       if (e == EstadoCarga.error) {
@@ -68,7 +70,7 @@ class ProductosController extends GetxController {
         forzarError: _modoDebugError,
         forzarVacio: _modoDebugVacio,
       );
-      print("LLEGA AL CONTROLADOR PRODUCTOS 57: ${resultado} ");
+
       productos.assignAll(resultado);
       estado.value = EstadoCarga.exito;
     } catch (e) {
@@ -119,6 +121,22 @@ class ProductosController extends GetxController {
       _favoritosBox.put(producto.id, producto.toMap());
       favoritos.add(producto);
     }
+  }
+
+  double get precioTotal {
+    double sum = 0.0;
+    /* for (var item in productosFavoritos) {
+      // Eliminamos la comparación innecesaria con null
+      // y convertimos a string de forma segura antes del parseo
+      final precioNum = double.tryParse(item.precio.toString()) ?? 0.0;
+      sum += precioNum;
+    }*/
+    return sum;
+  }
+
+  // Limpiar favoritos después de una compra exitosa
+  void vaciarFavoritos() {
+    productosFavoritos.clear();
   }
 
   // double? distanciaA(Place lugar) {

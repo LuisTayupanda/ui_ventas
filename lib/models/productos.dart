@@ -28,13 +28,15 @@ class Producto {
       };
 
   factory Producto.fromMap(Map<String, dynamic> mapa) => Producto(
-        id: mapa['id'] as String? ?? '',
-        nombre: mapa['nombre'] as String? ?? '',
-        categoria: mapa['categoria'] as String? ?? '',
-        descripcion: mapa['descripcion'] as String? ?? '',
-        precio: mapa['precio'] as String? ?? '',
-        imagen: mapa['imagen'] as String? ?? '',
-        talla: mapa['talla'] as String? ?? '',
+        id: mapa['id'] != null ? mapa['id'].toString() : '',
+        nombre: mapa['nombre'] != null ? mapa['nombre'].toString() : '',
+        categoria:
+            mapa['categoria'] != null ? mapa['categoria'].toString() : '',
+        descripcion:
+            mapa['descripcion'] != null ? mapa['descripcion'].toString() : '',
+        precio: mapa['precio'] != null ? mapa['precio'].toString() : '0.0',
+        imagen: mapa['imagen'] != null ? mapa['imagen'].toString() : '',
+        talla: mapa['talla'] != null ? mapa['talla'].toString() : '',
       );
 }
 
@@ -80,7 +82,6 @@ final List<Producto> productosEjemplo = [
 
 Future<List<Producto>> fetchProductosSimulado(
     {bool forzarError = false, bool forzarVacio = false}) async {
-  print("LLEGA A PRODUCTOS 105: ");
   await Future.delayed(const Duration(seconds: 1));
   if (forzarError) {
     throw Exception('No se pudo conectar con el servidor (simulado)');

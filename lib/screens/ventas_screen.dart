@@ -1,3 +1,5 @@
+import 'package:exploraec/screens/compraFavoritos_screen.dart';
+import 'package:exploraec/screens/favorites_screen.dart';
 import 'package:exploraec/screens/inicio_screen.dart';
 import 'package:exploraec/screens/map_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -30,7 +32,7 @@ class VentasScreen extends GetView<GastosController> {
   @override
   Widget build(BuildContext context) {
     final auth = Get.find<AuthController>();
-    print('TOKEN  ventass: ${auth}');
+
     return Obx(() {
       if (!auth.estaAutenticado) return const SinSesionView();
       //return const InicioScreen();
@@ -41,8 +43,6 @@ class VentasScreen extends GetView<GastosController> {
   }
 
   Widget build_Nacigation(BuildContext context, AuthController auth) {
-    print(
-        '=================================LLEGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     return GetMaterialApp(
       title: 'FashionStore',
       theme: AppTheme.theme,
@@ -230,7 +230,7 @@ class _RootShellState extends State<RootShell> {
         0 => const InicioScreen(),
         // 1 => const HomeScreen(),
         1 => const MapScreen(),
-        // 3 => const FavoritesScreen(),
+        // 2 => const FavoritosScreen(),
         // 4 => const GastosScreen(),
         _ => const AssistantScreen(),
       },
