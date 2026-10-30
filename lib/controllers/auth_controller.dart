@@ -64,7 +64,7 @@ class AuthController extends GetxController {
         data: {'username': email, 'password': password},
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
-      print('*****Respuesta del servidor: $r');
+
       final token = (r.data as Map)['access_token'] as String;
       _api.token = token;
       await _almacen.guardar(token);
@@ -128,10 +128,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> cargarUsuario() async {
-    print('*****CARGANDO USUARIO*****');
     final r = await _api.get('/usuarios/me');
     usuario.value = Usuario.fromJson(Map<String, dynamic>.from(r.data as Map));
-    print('*****USUARIO: ${usuario.value}*****');
   }
 
   void invalidarTokenParaPruebas() => _api.token = 'token-invalido';
