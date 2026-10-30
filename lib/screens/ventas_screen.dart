@@ -231,7 +231,7 @@ class _RootShellState extends State<RootShell> {
       body: switch (_indiceActual) {
         0 => const InicioScreen(),
         1 => const MapScreen(),
-        2 => const FavoritosScreen(),
+        // 2 => const FavoritosScreen(),
         _ => const AssistantScreen(),
       },
       bottomNavigationBar: BottomNavigationBar(
@@ -243,8 +243,8 @@ class _RootShellState extends State<RootShell> {
               icon: const Icon(Icons.home), label: 'inicio'.tr),
           BottomNavigationBarItem(
               icon: const Icon(Icons.map), label: 'mapa'.tr),
-          BottomNavigationBarItem(
-              icon: const Icon(Icons.shopping_cart), label: 'carrito'.tr),
+          // BottomNavigationBarItem(
+          //  icon: const Icon(Icons.shopping_cart), label: 'carrito'.tr),
           // BottomNavigationBarItem(
           //     icon: const Icon(Icons.receipt_long), label: 'gastos'.tr),
           BottomNavigationBarItem(

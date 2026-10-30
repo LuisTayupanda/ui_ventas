@@ -58,8 +58,19 @@ class ProductosController extends GetxController {
 
     //nuevo codigo de favorito***********
     super.onInit();
-
     _observarErrores();
+
+    if (_favoritosBox.isNotEmpty) {
+      favoritos.assignAll(
+        _favoritosBox.values
+            .map(
+              (mapa) => Producto.fromMap(
+                Map<String, dynamic>.from(mapa),
+              ),
+            )
+            .toList(),
+      );
+    }
 
     final favoritosCargados = <Producto>[];
 
@@ -144,20 +155,17 @@ class ProductosController extends GetxController {
   }*/
 
   double get precioTotal {
-    double sum = 0.0;
-    /* for (var item in productosFavoritos) {
-      // Eliminamos la comparación innecesaria con null
-      // y convertimos a string de forma segura antes del parseo
-      final precioNum = double.tryParse(item.precio.toString()) ?? 0.0;
-      sum += precioNum;
-    }*/
-    return sum;
+    return favoritos.fold(
+      0.0,
+      (total, producto) =>
+          total + (double.tryParse(producto.precio.toString()) ?? 0.0),
+    );
   }
 
   // Limpiar favoritos después de una compra exitosa
-  // void vaciarFavoritos() {
-  //   productosFavoritos.clear();
-  // }
+  void vaciarFavoritos() {
+    productosFavoritos.clear();
+  }
 
   // double? distanciaA(Place lugar) {
   //   final pos = posicion.value;
@@ -184,11 +192,5 @@ class ProductosController extends GetxController {
       _favoritosBox.put(producto.id, producto.toMap());
       favoritos.add(producto);
     }
-  }
-
-// Vaciar favoritos después de una compra
-  Future<void> vaciarFavoritos() async {
-    await _favoritosBox.clear();
-    favoritos.clear();
   }
 }

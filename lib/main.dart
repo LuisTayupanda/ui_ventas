@@ -68,11 +68,11 @@ Future<void> main() async {
 
   debugPrint('9. EJECUTANDO RUNAPP');
 
-  runApp(const ExploraEcApp());
+  runApp(const Ventas());
 }
 
-class ExploraEcApp extends StatelessWidget {
-  const ExploraEcApp({super.key});
+class Ventas extends StatelessWidget {
+  const Ventas({super.key});
 
   @override
   Widget build(BuildContext context) {

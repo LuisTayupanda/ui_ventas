@@ -14,6 +14,7 @@ import '../widgets/loading_view.dart';
 import '../widgets/place_card.dart';
 import 'add_place_screen.dart';
 import '../services/settings_service.dart';
+import '../screens/comprasFavoritos_screen.dart';
 
 class InicioScreen extends GetView<ProductosController> {
   const InicioScreen({super.key});
@@ -47,6 +48,40 @@ class InicioScreen extends GetView<ProductosController> {
               // PopupMenuItem(value: 'error', child: Text('sim_error'.tr)),
               PopupMenuItem(value: 'cerrar', child: Text('cerrar sesion'.tr)),
             ],
+          ),
+          IconButton(
+            tooltip: 'Mis favoritos',
+            onPressed: () {
+              Get.to(() => const ComprasFavoritosScreen());
+            },
+            icon: Obx(() {
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(
+                    Icons.shopping_cart,
+                    color: Color.fromARGB(255, 251, 250, 250),
+                    size: 27,
+                  ),
+                  if (controller.favoritos.isNotEmpty)
+                    Positioned(
+                      right: -8,
+                      top: -8,
+                      child: CircleAvatar(
+                        radius: 9,
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          '${controller.favoritos.length}',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            }),
           ),
         ],
       ),
