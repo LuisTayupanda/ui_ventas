@@ -43,7 +43,7 @@ class ProductosController extends GetxController {
     super.onInit();
 
     // CONTROL DE EXCEPCIONES: Evita que la app falle si la BD local está vacía
-    try {
+    /* try {
       if (_favoritosBox.isNotEmpty) {
         favoritos.value = _favoritosBox.values
             .map((mapa) => Producto.fromMap(Map<String, dynamic>.from(mapa)))
@@ -54,6 +54,26 @@ class ProductosController extends GetxController {
     }
 
     // Ahora se ejecutará sin interrupciones
+    cargarProductos();*/
+
+    //nuevo codigo de favorito***********
+    super.onInit();
+
+    _observarErrores();
+
+    final favoritosCargados = <Producto>[];
+
+    for (final entrada in _favoritosBox.toMap().entries) {
+      try {
+        final mapa = Map<String, dynamic>.from(entrada.value);
+        favoritosCargados.add(Producto.fromMap(mapa));
+      } catch (e) {
+        print('Error al cargar favorito ${entrada.key}: $e');
+      }
+    }
+
+    favoritos.assignAll(favoritosCargados);
+
     cargarProductos();
   }
 
@@ -105,7 +125,7 @@ class ProductosController extends GetxController {
     productos.add(producto);
   }
 
-  final RxList<Producto> favoritos = <Producto>[].obs;
+  /* final RxList<Producto> favoritos = <Producto>[].obs;
   final Box<Map> _favoritosBox = Hive.box<Map>('favoritos');
 
   bool esFavorito(Producto producto) =>
@@ -121,7 +141,7 @@ class ProductosController extends GetxController {
       _favoritosBox.put(producto.id, producto.toMap());
       favoritos.add(producto);
     }
-  }
+  }*/
 
   double get precioTotal {
     double sum = 0.0;
@@ -135,12 +155,40 @@ class ProductosController extends GetxController {
   }
 
   // Limpiar favoritos después de una compra exitosa
-  void vaciarFavoritos() {
-    productosFavoritos.clear();
-  }
+  // void vaciarFavoritos() {
+  //   productosFavoritos.clear();
+  // }
 
   // double? distanciaA(Place lugar) {
   //   final pos = posicion.value;
   //   return pos == null ? null : distanciaAPlaceEnMetros(pos, lugar);
   // }
+  ///Aqui el nuevo codigo de favoritos
+  ///// Favoritos de productos******************************
+  final RxList<Producto> favoritos = <Producto>[].obs;
+
+// Caja independiente para favoritos de productos
+  final Box<Map> _favoritosBox = Hive.box<Map>('productos_favoritos');
+
+  bool esFavorito(Producto producto) =>
+      favoritos.any((p) => p.id == producto.id);
+
+  int get totalFavoritos => favoritos.length;
+
+// Agregar o quitar favoritos
+  void alternarFavorito(Producto producto) {
+    if (esFavorito(producto)) {
+      _favoritosBox.delete(producto.id);
+      favoritos.removeWhere((p) => p.id == producto.id);
+    } else {
+      _favoritosBox.put(producto.id, producto.toMap());
+      favoritos.add(producto);
+    }
+  }
+
+// Vaciar favoritos después de una compra
+  Future<void> vaciarFavoritos() async {
+    await _favoritosBox.clear();
+    favoritos.clear();
+  }
 }

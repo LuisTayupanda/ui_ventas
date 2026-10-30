@@ -65,10 +65,10 @@ class InicioScreen extends GetView<ProductosController> {
         }
         return _buildLista(controller.productos);
       }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => const AddPlaceScreen()),
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => Get.to(() => const AddPlaceScreen()),
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 

@@ -20,7 +20,7 @@ import 'utils/reporte_errores.dart';
 import 'screens/login_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
 
   ReporteErrores.instalar();
   await Hive.initFlutter();
@@ -31,6 +31,43 @@ Future<void> main() async {
   Get.put(AuthController(), permanent: true);
   Get.put(AiAssistantService(), permanent: true);
   Get.put(ProductosController(), permanent: true);
+  runApp(const ExploraEcApp());*/
+  WidgetsFlutterBinding.ensureInitialized();
+
+  debugPrint('========== INICIO APP ==========');
+
+  try {
+    ReporteErrores.instalar();
+    debugPrint('1. ReporteErrores instalado');
+
+    await Hive.initFlutter();
+    debugPrint('2. Hive inicializado');
+
+    await Hive.openBox<Map>('productos_favoritos');
+    debugPrint('3. Caja favoritos abierta');
+
+    await SettingsService.abrir();
+    debugPrint('4. Configuración cargada');
+
+    Get.put(ApiClient(), permanent: true);
+    debugPrint('5. ApiClient registrado');
+
+    Get.put(AuthController(), permanent: true);
+    debugPrint('6. AuthController registrado');
+
+    Get.put(AiAssistantService(), permanent: true);
+    debugPrint('7. AiAssistantService registrado');
+
+    Get.put(ProductosController(), permanent: true);
+    debugPrint('8. ProductosController registrado');
+  } catch (e, stack) {
+    debugPrint('ERROR AL INICIAR LA APLICACIÓN: $e');
+    debugPrint('$stack');
+    rethrow;
+  }
+
+  debugPrint('9. EJECUTANDO RUNAPP');
+
   runApp(const ExploraEcApp());
 }
 

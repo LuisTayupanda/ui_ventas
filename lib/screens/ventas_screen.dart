@@ -1,4 +1,3 @@
-import 'package:exploraec/screens/compraFavoritos_screen.dart';
 import 'package:exploraec/screens/favorites_screen.dart';
 import 'package:exploraec/screens/inicio_screen.dart';
 import 'package:exploraec/screens/map_screen.dart';
@@ -25,6 +24,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../bindings/places_binding.dart';
 import '../screens/assistant_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/compraFavoritos_screen.dart';
 
 class VentasScreen extends GetView<GastosController> {
   const VentasScreen({super.key});
@@ -32,7 +32,7 @@ class VentasScreen extends GetView<GastosController> {
   @override
   Widget build(BuildContext context) {
     final auth = Get.find<AuthController>();
-
+    print('TOKEN  ventass: ${auth}');
     return Obx(() {
       if (!auth.estaAutenticado) return const SinSesionView();
       //return const InicioScreen();
@@ -43,6 +43,8 @@ class VentasScreen extends GetView<GastosController> {
   }
 
   Widget build_Nacigation(BuildContext context, AuthController auth) {
+    print(
+        '=================================LLEGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     return GetMaterialApp(
       title: 'FashionStore',
       theme: AppTheme.theme,
@@ -228,10 +230,8 @@ class _RootShellState extends State<RootShell> {
     return Scaffold(
       body: switch (_indiceActual) {
         0 => const InicioScreen(),
-        // 1 => const HomeScreen(),
         1 => const MapScreen(),
         2 => const FavoritosScreen(),
-        // 4 => const GastosScreen(),
         _ => const AssistantScreen(),
       },
       bottomNavigationBar: BottomNavigationBar(
@@ -244,7 +244,7 @@ class _RootShellState extends State<RootShell> {
           BottomNavigationBarItem(
               icon: const Icon(Icons.map), label: 'mapa'.tr),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.favorite), label: 'favoritos'.tr),
+              icon: const Icon(Icons.shopping_cart), label: 'carrito'.tr),
           // BottomNavigationBarItem(
           //     icon: const Icon(Icons.receipt_long), label: 'gastos'.tr),
           BottomNavigationBarItem(

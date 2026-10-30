@@ -46,7 +46,8 @@ class _AssistantScreenState extends State<AssistantScreen> {
       // resumen por categoría al backend (con el token de tu sesión) y se envía
       // al proxy junto con la pregunta. La respuesta se muestra en pantalla.
       final resumen = await Get.find<GastosController>().obtenerResumen();
-      final r = await Get.find<AiAssistantService>().preguntar(consulta, resumen);
+      final r =
+          await Get.find<AiAssistantService>().preguntar(consulta, resumen);
       setState(() => _respuesta = r.respuesta);
 
       // Por qué: si la IA propone registrar un gasto, la app NO lo hace sola.
@@ -71,14 +72,19 @@ class _AssistantScreenState extends State<AssistantScreen> {
         content: Text(
             'La IA propone registrar: ${accion.descripcion} — ${accion.monto.toStringAsFixed(2)} en ${accion.categoria}. ¿Confirmas?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(dialogo, false), child: const Text('Cancelar')),
-          FilledButton(onPressed: () => Navigator.pop(dialogo, true), child: const Text('Registrar')),
+          TextButton(
+              onPressed: () => Navigator.pop(dialogo, false),
+              child: const Text('Cancelar')),
+          FilledButton(
+              onPressed: () => Navigator.pop(dialogo, true),
+              child: const Text('Registrar')),
         ],
       ),
     );
     if (confirmado != true) return;
     try {
-      await Get.find<GastosController>().crear(accion.descripcion, accion.monto, accion.categoria);
+      await Get.find<GastosController>()
+          .crear(accion.descripcion, accion.monto, accion.categoria);
       if (mounted) {
         setState(() => _respuesta =
             'Listo: registré «${accion.descripcion}» por ${accion.monto.toStringAsFixed(2)} en ${accion.categoria}.');
@@ -113,7 +119,9 @@ class _AssistantScreenState extends State<AssistantScreen> {
               children: [
                 Icon(Icons.info_outline),
                 SizedBox(width: AppSpacing.sm),
-                Expanded(child: Text('Sugerencia de IA: verifica antes de decidir.')),
+                Expanded(
+                    child:
+                        Text('Sugerencia de IA: verifica antes de decidir.')),
               ],
             ),
           ),
@@ -124,7 +132,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
             textInputAction: TextInputAction.send,
             onSubmitted: (_) => _cargando ? null : _preguntar(),
             decoration: const InputDecoration(
-              labelText: 'Pregunta sobre tus gastos',
+              labelText: 'Pregunta sobre tus compras',
               border: OutlineInputBorder(),
             ),
           ),
@@ -133,7 +141,10 @@ class _AssistantScreenState extends State<AssistantScreen> {
             spacing: AppSpacing.sm,
             runSpacing: AppSpacing.sm,
             children: [
-              for (final sugerencia in const ['¿En qué categoría gasto más?', '¿Cuánto me queda en comida?', '¿Qué lugar barato de comida me recomiendas?'])
+              for (final sugerencia in const [
+                '¿Cuanto gaste en la ultima compra?',
+                '¿Donde que ubicado el local de vetas?'
+              ])
                 ActionChip(
                   label: Text(sugerencia),
                   onPressed: _cargando
@@ -149,7 +160,10 @@ class _AssistantScreenState extends State<AssistantScreen> {
           FilledButton.icon(
             onPressed: _cargando ? null : _preguntar,
             icon: _cargando
-                ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                ? const SizedBox(
+                    height: 18,
+                    width: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2))
                 : const Icon(Icons.auto_awesome),
             label: const Text('Preguntar'),
           ),

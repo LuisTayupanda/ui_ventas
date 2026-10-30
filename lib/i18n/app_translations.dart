@@ -44,6 +44,8 @@ class AppTranslations extends Translations {
           'guardar': 'Save',
           'lugar_agregado': 'Place added',
           'lugar_agregado_msg': 'It now shows up on Home',
+          'ubicacion': 'location',
+          'carrito': 'car',
         },
       };
 }
