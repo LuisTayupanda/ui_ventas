@@ -40,7 +40,7 @@ Se tomo com guia el proyecto explorEC en la cual se a hido desarrollando las fun
 *  Cerrar sesion
 
 ## 🛠️ Requisitos Previos
-*   Flutter SDK (Versión 3.x o superior)
+*   Flutter SDK (Versión 3.4.0)
 *   Dart SDK
 *   Servidor del Asistente ejecutándose 
 
